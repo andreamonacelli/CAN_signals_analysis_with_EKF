@@ -12,14 +12,16 @@ from src.utils.mathutils import *
 
 
 # PARAMETERS SETUP
-base_path = 'outputs'
-vehicles_folders = ['C-1-AlfaRomeo-Giulia', 'C-2-Opel-Corsa']
-exp_folders = [f'Exp-{i}' for i in range(1, 10)]
+MAX_EXPERIMENT_COUNT = 10
+BASE_PATH = 'outputs'
+# vehicles_folders = ['C-1-AlfaRomeo-Giulia', 'C-2-Opel-Corsa']
+vehicles_folders = os.listdir(BASE_PATH)
+exp_folders = [f'Exp-{i}' for i in range(1, MAX_EXPERIMENT_COUNT)]
 can_var_names = ['BY_0', 'HA_0', 'HA_1', 'HA_2', 'NI_0', 'NI_1']
 
 
 if __name__ == '__main__':
-    traces_files = traces_filenames_generator(base_path, vehicles_folders, exp_folders, can_var_names)
+    traces_files = traces_filenames_generator(BASE_PATH, vehicles_folders, exp_folders, can_var_names)
     for f in traces_files:
         print(f'\n=========== NOW CHARTING TRACE FILE {f} ===========')
         tracing_dict = json.load(open(f, 'r'))
@@ -27,7 +29,7 @@ if __name__ == '__main__':
 
         # Eventually loading the metrics dictionary, creating it otherwise
         vehicle_name, experiment_id, var_name = get_info_from_path(f)
-        metrics_filepath = f'{base_path}/{vehicle_name}/{experiment_id}/metrics.json'
+        metrics_filepath = f'{BASE_PATH}/{vehicle_name}/{experiment_id}/metrics.json'
         if os.path.exists(metrics_filepath):
             metrics_dict = json.load(open(metrics_filepath, 'r'))
             metrics_dict[var_name] = {}
@@ -62,7 +64,8 @@ if __name__ == '__main__':
                 p = best_dist_obj.pdf(x, *best_params)
                 mu = best_dist_obj.mean(*best_params)
                 std = best_dist_obj.std(*best_params)
-                axes.plot(x, p, 'k', linewidth=2, label=f'Ideal $\\mathcal{{N}}$($\\mu$={mu:.4f}, $\\sigma$={std:.4f})')
+                dist_label = '$\\mathcal{N}$' if best_dist_name == 'norm' else best_dist_name.capitalize()
+                axes.plot(x, p, 'k', linewidth=2, label=f'Ideal {dist_label} ($\\mu$={mu:.4f}, $\\sigma$={std:.4f})')
                 axes.set_title('Innovation Residual Distribution (Unimodal)')
 
             # Common parameters and plotting the chart

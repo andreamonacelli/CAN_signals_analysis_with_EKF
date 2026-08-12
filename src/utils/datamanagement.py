@@ -41,6 +41,7 @@ def get_info_from_path(filepath):
     return vehicle_code, experiment_id, var_name
 
 
+# TO BE PARAMETRIZED IN ORDER TO MAKE THE VALUES "UNIVERSAL"
 def get_var_names(raw_dataframe):
     """
     Given a DataFrame holding CAN readings, returns a list of all the available variable names that ARE NOT associated

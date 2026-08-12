@@ -6,6 +6,11 @@ from src.models.motion_models import *
 from src.utils.mathutils import *
 
 
+# The format handled by this parser is the following:
+# 2018-07-26 15:15:58.643918,0DE,can0,halfword,HA_0,7843
+# time,id,can,datatype,variable,value
+
+
 ALFA_ROMEO_SPEED_IDs = ['0EE', '1F7']
 OPEL_CORSA_SPEED_IDs = ['348']
 OPEL_CORSA_RPM_IDs = ['0C9']  # To keep only if it will be decided to proceed with RPMs as well
