@@ -1,0 +1,1 @@
+{"HA_0": {"distribution": "Laplace", "mean": 4.1140277636066625e-75, "std_deviation": 0.15362215782052227, "max_cumulative_error": 17.047782767158296}, "HA_1": {"distribution": "Laplace", "mean": 1.427763712474835e-88, "std_deviation": 0.15294679796908572, "max_cumulative_error": 17.1943329754896}}

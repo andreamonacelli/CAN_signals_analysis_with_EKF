@@ -14,10 +14,9 @@ from src.utils.mathutils import *
 # PARAMETERS SETUP
 MAX_EXPERIMENT_COUNT = 10
 BASE_PATH = 'outputs'
-# vehicles_folders = ['C-1-AlfaRomeo-Giulia', 'C-2-Opel-Corsa']
 vehicles_folders = os.listdir(BASE_PATH)
 exp_folders = [f'Exp-{i}' for i in range(1, MAX_EXPERIMENT_COUNT)]
-can_var_names = ['BY_0', 'HA_0', 'HA_1', 'HA_2', 'NI_0', 'NI_1']
+can_var_names = ['BY_0', 'HA_0', 'HA_1', 'HA_2', 'NI_0', 'NI_1', 'VAR']  # It would be better to make this dynamic
 
 
 if __name__ == '__main__':

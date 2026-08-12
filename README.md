@@ -19,7 +19,7 @@ perform, given the current signal, an accurate prediction for the next signal ac
 
 The project exploits publicly available datasets that hold readings performed over the CAN Bus of real vehicles.
 The datasets (currently) used are the likes of [ReCAN](https://github.com/Cyberdefence-Lab-Murcia/ReCAN) and
-[CANdid](https://doi.org/10.25909/29068553).
+[OpenLKA EV_Dataset](https://github.com/OpenLKA/EV_Dataset).
 Each dataset, due to its peculiar characteristics, has its own parser in the respective folder. To extend the range
 of data to use in order to use the algorithm there are a couple alternative scenarios:
 * Make sure that the CAN log format is among the already implemented ones
@@ -27,7 +27,7 @@ of data to use in order to use the algorithm there are a couple alternative scen
 
 In order to not re-invent the wheel, the project uses the EKF implementation provided by the module 
 [**FilterPy**](https://filterpy.readthedocs.io/en/latest/kalman/ExtendedKalmanFilter.html) whose specific theoretical
-fundamentals can be found in the [source repository](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/11-Extended-Kalman-Filters.ipynb).
+fundamentals can be found in the respective [source repository](https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/11-Extended-Kalman-Filters.ipynb).
 
 ---
 
@@ -41,8 +41,8 @@ CAN_signals_analysis_with_EKF/
 ├── src/                    # Source code main folder
 │   ├── parsers/            # Parsers that will adjust the format of CAN messages fetched from public datasets
 │   ├── models/             # Classes defining the physical models to be used in the EKF
-│   ├── utils/              # Generic utilities file that include widely used common functions
-│   ├── output_analysis.py  # Script that charts the computed outputs for more human-readable analysis
-│   └── main.py             # Main execution script (performing the EKF prediction cycle)
+│   └── utils/              # Generic utilities file that include widely used common functions
+├── output_analysis.py      # Script that charts the computed outputs for more human-readable analysis
+├── main.py                 # Main execution script (performing the EKF prediction cycle)
 ├── requirements.txt        # Python dependencies
 └── README.md               # This presentation file!

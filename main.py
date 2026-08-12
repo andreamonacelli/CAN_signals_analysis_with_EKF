@@ -2,16 +2,12 @@
 The main execution script that will deal with all the analyses that are required to be performed through the project
 """
 import json
-import logging
-import os.path
+from src.parsers.factories import ParserFactory
 
-import numpy as np
 from filterpy.kalman import ExtendedKalmanFilter
 from src.utils.generic import *
 from src.utils.datamanagement import *
 from src.parsers.recan import *
-from output_analysis import can_var_names
-
 
 # Logger setup
 logger = logging.getLogger(__name__)
@@ -20,14 +16,12 @@ logger = logging.getLogger(__name__)
 # SETUP STAGE: Fetching the input filenames
 MAX_EXPERIMENT_COUNT = 10
 BASE_PATH = 'data'
-# vehicles_folders = ['C-1-AlfaRomeo-Giulia', 'C-2-Opel-Corsa']
 vehicles_folders = os.listdir(BASE_PATH)
 exp_folders = [f'Exp-{i}' for i in range(1, MAX_EXPERIMENT_COUNT)]
-filename = 'unified.tar.gz'  # TODO: move this part into the ReCAN parser
 
 
 if __name__ == '__main__':
-    input_files_paths = input_filename_generator(BASE_PATH, vehicles_folders, exp_folders, filename)
+    input_files_paths = input_filename_generator(BASE_PATH, vehicles_folders, exp_folders)
     # For each file we should loop over the whole dataset
     for exp_file in input_files_paths:
         stats_dict = {'file': exp_file}
@@ -35,13 +29,18 @@ if __name__ == '__main__':
         # The first thing to do is converting the parsed file into a pandas dataframe leveraging the method in utilities
         # We will get the dataframe without binary readings since they are not very interesting in our context
 
-        # TODO: parametrize the dataframe to make it "universal"
+        # Based on the experiment file currently under examination, fetch the data into a Pandas DataFrame
+        source_dataset = exp_file.split('/')[1].split('-')[0]
+        parser = ParserFactory.get_parser(source_dataset)
+        if parser is None:
+            print(f'No parser exists for file {exp_file}')
+            continue
+        df = parser.parse(exp_file)
 
-        df = convert_to_dataframe(exp_file)
         stats_dict['total_file_records'] = len(df)
         logger.debug(f'The file {exp_file} has been converted to dataframe and has {len(df)} rows (non-binary records)')
 
-        # outfile_dir_path = exp_file.replace('data', 'outputs').removesuffix('unified.tar.gz')
+        # Defining the output directory path (and creating it in case it doesn't exist)
         outfile_dir_path = os.path.split(exp_file)[0].replace('data', 'outputs')
         if not os.path.exists(outfile_dir_path):
             os.makedirs(outfile_dir_path)
@@ -49,9 +48,14 @@ if __name__ == '__main__':
         # Setting the correct lists to be used while filtering the dataframe and defining the motion models
         # Right now it is implemented for ReCAN only, this will be refactored accordingly when OpenDBC and other sources
         # will be integrated in the project
-        speed_ids, motion_model, HJacobian, Hx = set_experiment_params(exp_file)
+        # speed_ids, motion_model, HJacobian, Hx = set_experiment_params(exp_file)
+        speed_ids, motion_model, HJacobian, Hx = parser.set_experiment_params(exp_file)
 
         can_variables = get_var_names(df)
+        # If no "variables" are found within the dataframe (thus we are likely to be working with a non-ReCAN source)
+        # we just place a "dummy" variable in the list in order to enter the loop
+        if len(can_variables) == 0:
+            can_variables.append('VAR')
         logger.debug(f'-> CAN variables in current file: {can_variables}')
 
         # We must perform the prediction separately for every single variable
@@ -69,9 +73,13 @@ if __name__ == '__main__':
             # Loop over the data (filter by CAN_ID, CAN_line and datatype)
             # We are going to use the 80/20 method (80% of data used for Calibration of the filter, 20% of the data used for later testing)
             # As of now we are just keeping the first 80% of the values to enhance Calibration even more we may have to take the median 80% values
-            # This should be revised later on to make the correct decision (like if it's ok to get the first 80% or we should get a random 80%)
-            filtered_df = df[(df['id'].isin(speed_ids)) & (df['variable'] == can_var_name)]  # PARAMETRIZE
-            filtered_df.sort_values(by=['time'], inplace=True)  # PARAMETRIZE
+            # In case we're working with a ReCAN source we must deal with the variables, otherwise we should just deal
+            # with the correct IDs
+            if can_var_name == 'VAR':
+                filtered_df = df[(df['id'].isin(speed_ids))]
+            else:
+                filtered_df = df[(df['id'].isin(speed_ids)) & (df['variable'] == can_var_name)]
+            filtered_df.sort_values(by=['time'], inplace=True)
             data_records = filtered_df.to_dict('records')
             split_index = int(len(data_records) * 0.8)
             calibration_records = data_records[:split_index]
@@ -85,23 +93,23 @@ if __name__ == '__main__':
             previous_signal = None
             cumulative_error = 0.0  # Track cumulative error to prevent potential attackers to inject slightly wrong data frames that would get accepted with threshold only check
             iteration_id = 0  # identifier used for tracking reasons
-            outfile_path = f'{outfile_dir_path}test_session_trace_{can_var_name}.json'
+            outfile_path = f'{outfile_dir_path}/test_session_trace_{can_var_name}.json'
             for signal in calibration_records:
                 session_trace = {'iteration_id': iteration_id}
 
                 # --- READING THE ACTUAL NEXT VALUE (and converting it in m/s) ---
-                signal_value = float(signal['value'])  # PARAMETRIZE
-                if signal['id'] in speed_ids:  # PARAMETRIZE
+                signal_value = float(signal['value'])
+                if signal['id'] in speed_ids:
                     signal_value = (signal_value * 0.05) / 3.6
                 z_k = np.array([[signal_value]])
-                session_trace['timestamp'] = str(signal['time'])  # PARAMETRIZE
+                session_trace['timestamp'] = str(signal['time'])
                 session_trace['signal_value'] = signal_value
 
                 # If it's the first signal, we must assume delta_time as 0
                 if previous_signal is None:
                     delta_time = 0
                 else:
-                    delta_time = (signal['time'] - previous_signal['time']).total_seconds()  # PARAMETRIZE
+                    delta_time = (signal['time'] - previous_signal['time']).total_seconds()
                 # Guard against out-of-order serial logging artifacts (time will not go backwards, thus delta_time can never be negative)
                 if delta_time < 0:
                     continue
