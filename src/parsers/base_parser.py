@@ -10,6 +10,14 @@ class BaseCANParser(ABC):
     Base interface for CAN datasets parsers
     """
 
+    @property
+    @abstractmethod
+    def speed_measure_unit(self):
+        """
+        Defines the measure unit of the speed readings of the respective data source
+        """
+        pass
+
     @abstractmethod
     def parse(self, filepath):
         """

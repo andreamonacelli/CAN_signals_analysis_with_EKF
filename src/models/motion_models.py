@@ -30,7 +30,7 @@ class VehicleMotionModel(ABC):
         pass
 
     @abstractmethod
-    def get_initial_state(self):
+    def get_initial_state(self, initial_velocity=0.0):
         """Returns the initial startup state (x0, P0)"""
         pass
 
@@ -52,9 +52,9 @@ class SpeedMotionModel(VehicleMotionModel):
         super().__init__()
         self.CAN_ids = CAN_ids
 
-    def get_initial_state(self):
-        # Assuming the initial state to be stationary (v = 0, a = 0)
-        x_0 = np.array([[0.0],
+    def get_initial_state(self, initial_velocity=0.0):
+        # The initial velocity is given, if not we will assume the initial state to be stationary
+        x_0 = np.array([[initial_velocity],
                         [0.0]])
         # Assuming high uncertainty over the values (populating the Covariance Matrix accordingly)
         P_0 = np.array([[10.0, 0.0],

@@ -50,6 +50,7 @@ if __name__ == '__main__':
         # will be integrated in the project
         # speed_ids, motion_model, HJacobian, Hx = set_experiment_params(exp_file)
         speed_ids, motion_model, HJacobian, Hx = parser.set_experiment_params(exp_file)
+        current_speed_um = parser.speed_measure_unit
 
         can_variables = get_var_names(df)
         # If no "variables" are found within the dataframe (thus we are likely to be working with a non-ReCAN source)
@@ -62,21 +63,17 @@ if __name__ == '__main__':
         for can_var_name in can_variables:
             print(f'======= CURRENTLY ANALYZING VARIABLE {can_var_name} for file {exp_file} =======')
 
-            # --- INITIAL EKF SETUP (ONCE PER EACH FILE/EXPERIMENT) ---
+            # --- DATAFRAME PREPARATION ---
 
-            # Creating an instance of an EKF based on the initial data defined in the respective motion model
-            ekf = ExtendedKalmanFilter(dim_x=motion_model.dim_x, dim_z=motion_model.dim_z)
-            x_0, P_0 = motion_model.get_initial_state()
-            ekf.x = x_0
-            ekf.P = P_0
-
-            # Loop over the data (filter by CAN_ID, CAN_line and datatype)
             # We are going to use the 80/20 method (80% of data used for Calibration of the filter, 20% of the data used for later testing)
             # As of now we are just keeping the first 80% of the values to enhance Calibration even more we may have to take the median 80% values
             # In case we're working with a ReCAN source we must deal with the variables, otherwise we should just deal
             # with the correct IDs
             if can_var_name == 'VAR':
-                filtered_df = df[(df['id'].isin(speed_ids))]
+                if len(speed_ids) == 0:
+                    filtered_df = df  # in case the IDs are not specified we can assume that the whole dataset is filled with speed-related messages
+                else:
+                    filtered_df = df[(df['id'].isin(speed_ids))]
             else:
                 filtered_df = df[(df['id'].isin(speed_ids)) & (df['variable'] == can_var_name)]
             filtered_df.sort_values(by=['time'], inplace=True)
@@ -85,6 +82,23 @@ if __name__ == '__main__':
             calibration_records = data_records[:split_index]
             logger.debug(f'Variable {can_var_name} -> Total frames: {len(filtered_df)}')
             logger.debug(f'Variable {can_var_name} -> Calibration frames (80%): {len(calibration_records)}')
+
+            # --- INITIAL EKF SETUP (ONCE PER EACH FILE/EXPERIMENT) ---
+
+            # In order to be more accurate we need to read the first value of the filtered dataframe to set the initial
+            # velocity value, otherwise the residual error would spike erroneously
+            if len(calibration_records) == 0:
+                logger.debug(f'No calibration records found, skipping iteration')
+                continue
+            first_signal_value = float(calibration_records[0]['value'])
+            if current_speed_um == 'kph':
+                first_signal_value = (first_signal_value * 0.05) / 3.6
+
+            # Creating an instance of an EKF based on the initial data defined in the respective motion model
+            ekf = ExtendedKalmanFilter(dim_x=motion_model.dim_x, dim_z=motion_model.dim_z)
+            x_0, P_0 = motion_model.get_initial_state(initial_velocity=first_signal_value)
+            ekf.x = x_0
+            ekf.P = P_0
 
             # --- LOOPING OVER THE FRAMES ---
 
@@ -97,9 +111,10 @@ if __name__ == '__main__':
             for signal in calibration_records:
                 session_trace = {'iteration_id': iteration_id}
 
-                # --- READING THE ACTUAL NEXT VALUE (and converting it in m/s) ---
+                # --- READING THE ACTUAL NEXT VALUE (and converting it in m/s if necessary) ---
                 signal_value = float(signal['value'])
-                if signal['id'] in speed_ids:
+                if current_speed_um == 'kph':
+                    # Perform the conversion based on the measurement unit noted in the parser
                     signal_value = (signal_value * 0.05) / 3.6
                 z_k = np.array([[signal_value]])
                 session_trace['timestamp'] = str(signal['time'])

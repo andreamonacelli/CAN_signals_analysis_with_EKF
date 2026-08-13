@@ -41,6 +41,7 @@ class ReCANParser(BaseCANParser):
     """
     This class will hold the necessary functions to parse the data from the ReCAN database
     """
+    speed_measure_unit = 'kph'
 
     def parse(self, tar_file_path):
         df = pd.DataFrame()
