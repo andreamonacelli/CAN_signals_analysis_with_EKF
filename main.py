@@ -1,6 +1,7 @@
 """
 The main execution script that will deal with all the analyses that are required to be performed through the project
 """
+import datetime
 import json
 
 import pandas as pd
@@ -110,6 +111,13 @@ def run_ekf_loop(records, motion_model, HJacobian, Hx, current_speed_um):
 
 if __name__ == '__main__':
     input_files_paths = input_filename_generator(BASE_PATH, vehicles_folders, exp_folders)
+
+    # Initializing the full report file (useful to analyze the results of the algorithm)
+    # Every time we run the algorithm we clear the previous report file, to keep it we should do a manual backup
+    report_file_path = f'outputs/full_report.txt'
+    with open(report_file_path, 'w') as report_file:
+        report_file.write(f'##### ALGORITHM FULL REPORT - Launched on date: {datetime.datetime.now()} #####')
+
     # For each file we should loop over the whole dataset
     for exp_file in input_files_paths:
         stats_dict = {'file': exp_file}
@@ -210,6 +218,11 @@ if __name__ == '__main__':
                 logger.debug(f'Skipping validation loop due to absence of calibration data...')
                 continue
 
+            # In the validation stage we might want to analyze signals and identify potential anomalies.
+            # An effective way to do it would be to define the statistical distribution of the data and then take the
+            # 99.8th percentile (regardless of the distribution) to define the threshold of the values
+            mu_calib, sigma_calib, anomaly_threshold, dist_name = compute_anomaly_threshold(session_traces_list, 0.998)
+
             # --- VALIDATION/TEST STAGE (20%) ---
             validation_traces_list = run_ekf_loop(
                 validation_records,
@@ -223,12 +236,29 @@ if __name__ == '__main__':
                 validation_df = pd.DataFrame(validation_traces_list)
                 # To flag a signal as anomaly we are, for now, performing a simple check that will be useful to output
                 # the data and perform further detailed analysis over it
-                validation_df['is_anomaly'] = (validation_df['residual_error'].abs() > max_abs_residual)
+                validation_df['is_anomaly'] = (validation_df['residual_error'].abs() > anomaly_threshold)
                 anomalies_count = validation_df['is_anomaly'].sum()
                 print(f'** {can_var_name} VALIDATION/TEST METRICS **')
                 print(f'Var {can_var_name} Total Test Frames Analyzed: {len(validation_df)}')
                 print(f'Var {can_var_name} Readings flagged as Anomalies: {anomalies_count}')
+                print(f'Var {can_var_name} Anomaly Rate: {(anomalies_count / len(validation_df)) * 100:.2f}%')
                 # We then save these results in an output file, the same way we did with the calibration data
                 validation_outfile_path = f'{outfile_dir_path}/validation_session_trace_{can_var_name}.json'
                 with open(validation_outfile_path, 'w') as outfile:
                     json.dump(validation_traces_list, outfile)
+
+            # Now we are going to write the full experiment report in the file
+            report_text = f"""
+            --- EXPERIMENT FILE: {exp_file} - VARIABLE: {can_var_name} ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: {len(calibration_records)}
+            - Statistical Distribution of Residuals:    {dist_name.capitalize()}
+            - Mean value of Residuals (mu):             {mu_calib}
+            - Standard Deviation of Residuals (sigma):  {sigma_calib}
+            - Anomaly threshold:                        {anomaly_threshold}
+            - Max. Cumulative Drift:                    {max_abs_cumulative}
+            [Validation Step, performed over 20% of total records] -> No. of records: {len(validation_records)}
+            - Signals flagged as anomalies:             {anomalies_count}
+            - Anomaly rate (anomalies/total frames %):  {(anomalies_count / len(validation_df)) * 100}
+            """
+            with open(report_file_path, 'a') as report_outfile:
+                report_outfile.write(report_text)

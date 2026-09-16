@@ -1,5 +1,6 @@
 import logging
 import numpy as np
+import pandas as pd
 import scipy.stats as stats
 from scipy.signal import find_peaks
 
@@ -98,3 +99,34 @@ def check_statistical_distribution(tracing_dataframe):
                 best_params = params
         print(f'\nThe most suitable statistical distribution is: {best_dist_name.capitalize()}')
     return best_params, best_dist_name
+
+
+def compute_anomaly_threshold(data_traces, confidence_level=0.998):
+    """
+    Given a series of traces it calculates the statistical boundaries for the residual.
+    It leverages quantiles to define a validity threshold that works for both Normal and Non-Normal distributions
+    :param data_traces: the calibration traces
+    :param confidence_level: the percentile we would like to calculate with the current function
+    :return:
+    """
+    if not data_traces:
+        return 0.0, 0.0, 0.0, 'None'
+    df = pd.DataFrame(data_traces)
+    residuals = df['residual_error'].dropna().values
+    # Computing statistical information related to the data
+    best_params, best_dist_name = check_statistical_distribution(df)
+    # Leveraging the information just computed to define the threshold
+    if best_dist_name == 'kde':
+        # Multimodal: Fallback to non-parametric empirical quantile
+        mu = np.mean(residuals)
+        sigma = np.std(residuals)
+        abs_residuals = np.abs(residuals)
+        threshold = float(np.quantile(abs_residuals, confidence_level))
+    else:
+        dist_obj = getattr(stats, best_dist_name)
+        mu = dist_obj.mean(*best_params)
+        sigma = dist_obj.std(*best_params)
+        # PPF (Percentile Point Function) computes the exact value at the given cumulative probability
+        threshold = dist_obj.ppf(confidence_level, *best_params)
+        threshold = abs(float(threshold))
+    return mu, sigma, threshold, best_dist_name

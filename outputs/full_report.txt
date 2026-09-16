@@ -1,0 +1,353 @@
+##### ALGORITHM FULL REPORT - Launched on date: 2026-09-16 15:20:41.857901 #####
+            --- EXPERIMENT FILE: data/openlka-Hyundai-Ioniq5/Exp-1/data.csv - VARIABLE: VAR ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 16000
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -1.8978613837224794
+            - Standard Deviation of Residuals (sigma):  7.334138397367505
+            - Anomaly threshold:                        19.386990652498405
+            - Max. Cumulative Drift:                    45808.282400210795
+            [Validation Step, performed over 20% of total records] -> No. of records: 4001
+            - Signals flagged as anomalies:             0
+            - Anomaly rate (anomalies/total frames %):  0.0
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-1/unified.tar.gz - VARIABLE: HA_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 139181
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -0.002137238104722007
+            - Standard Deviation of Residuals (sigma):  2.0749602763616286
+            - Anomaly threshold:                        5.732418124654238
+            - Max. Cumulative Drift:                    321.95855661803887
+            [Validation Step, performed over 20% of total records] -> No. of records: 34796
+            - Signals flagged as anomalies:             0
+            - Anomaly rate (anomalies/total frames %):  0.0
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-1/unified.tar.gz - VARIABLE: HA_1 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 92723
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             3.632422890827864e-21
+            - Standard Deviation of Residuals (sigma):  0.05052828543093094
+            - Anomaly threshold:                        0.197275687828449
+            - Max. Cumulative Drift:                    25.927151388238272
+            [Validation Step, performed over 20% of total records] -> No. of records: 23181
+            - Signals flagged as anomalies:             313
+            - Anomaly rate (anomalies/total frames %):  1.350243734092576
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-1/unified.tar.gz - VARIABLE: HA_2 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 92723
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             8.302944560867331e-05
+            - Standard Deviation of Residuals (sigma):  0.04730747392083096
+            - Anomaly threshold:                        0.18478382381385317
+            - Max. Cumulative Drift:                    25.692307464146847
+            [Validation Step, performed over 20% of total records] -> No. of records: 23181
+            - Signals flagged as anomalies:             363
+            - Anomaly rate (anomalies/total frames %):  1.5659376213278116
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-1/unified.tar.gz - VARIABLE: NI_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 46458
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             -6.938893903907228e-17
+            - Standard Deviation of Residuals (sigma):  0.0033085929552476774
+            - Anomaly threshold:                        0.012917615260922524
+            - Max. Cumulative Drift:                    0.5492539218620425
+            [Validation Step, performed over 20% of total records] -> No. of records: 11615
+            - Signals flagged as anomalies:             367
+            - Anomaly rate (anomalies/total frames %):  3.1597072750753337
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-1/unified.tar.gz - VARIABLE: BY_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 46458
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             0.0
+            - Standard Deviation of Residuals (sigma):  8.658777438400002e-05
+            - Anomaly threshold:                        0.00033806139676929555
+            - Max. Cumulative Drift:                    0.10547930877200856
+            [Validation Step, performed over 20% of total records] -> No. of records: 11615
+            - Signals flagged as anomalies:             600
+            - Anomaly rate (anomalies/total frames %):  5.165733964700818
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-2/unified.tar.gz - VARIABLE: HA_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 16592
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -0.003243460831437668
+            - Standard Deviation of Residuals (sigma):  1.3595923189176278
+            - Anomaly threshold:                        4.484198667706242
+            - Max. Cumulative Drift:                    55.51611684365139
+            [Validation Step, performed over 20% of total records] -> No. of records: 4148
+            - Signals flagged as anomalies:             1
+            - Anomaly rate (anomalies/total frames %):  0.024108003857280617
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-2/unified.tar.gz - VARIABLE: HA_1 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 11053
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             0.0
+            - Standard Deviation of Residuals (sigma):  0.06517936681431671
+            - Anomaly threshold:                        0.25447735482918027
+            - Max. Cumulative Drift:                    27.173130041249777
+            [Validation Step, performed over 20% of total records] -> No. of records: 2764
+            - Signals flagged as anomalies:             189
+            - Anomaly rate (anomalies/total frames %):  6.8379160636758325
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-2/unified.tar.gz - VARIABLE: HA_2 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 11053
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             0.0
+            - Standard Deviation of Residuals (sigma):  0.06542035751810522
+            - Anomaly threshold:                        0.2554182457864863
+            - Max. Cumulative Drift:                    27.004374640429248
+            [Validation Step, performed over 20% of total records] -> No. of records: 2764
+            - Signals flagged as anomalies:             180
+            - Anomaly rate (anomalies/total frames %):  6.512301013024602
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-2/unified.tar.gz - VARIABLE: NI_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 5538
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             1.8375122296424018e-05
+            - Standard Deviation of Residuals (sigma):  0.005423272994826859
+            - Anomaly threshold:                        0.021192256270477893
+            - Max. Cumulative Drift:                    0.5967207958675128
+            [Validation Step, performed over 20% of total records] -> No. of records: 1385
+            - Signals flagged as anomalies:             12
+            - Anomaly rate (anomalies/total frames %):  0.8664259927797834
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-3/unified.tar.gz - VARIABLE: VAR ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 3993
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -0.0016496028899786843
+            - Standard Deviation of Residuals (sigma):  1.9797791332258474
+            - Anomaly threshold:                        5.608631474443256
+            - Max. Cumulative Drift:                    48.64701867942017
+            [Validation Step, performed over 20% of total records] -> No. of records: 999
+            - Signals flagged as anomalies:             0
+            - Anomaly rate (anomalies/total frames %):  0.0
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-4/unified.tar.gz - VARIABLE: HA_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 146809
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -0.001997475867090717
+            - Standard Deviation of Residuals (sigma):  1.6549419616328205
+            - Anomaly threshold:                        3.9521688236867956
+            - Max. Cumulative Drift:                    308.90777846341354
+            [Validation Step, performed over 20% of total records] -> No. of records: 36703
+            - Signals flagged as anomalies:             0
+            - Anomaly rate (anomalies/total frames %):  0.0
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-4/unified.tar.gz - VARIABLE: HA_1 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 97804
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             -2.669653524292987e-27
+            - Standard Deviation of Residuals (sigma):  0.05105792018846882
+            - Anomaly threshold:                        0.19934352092826715
+            - Max. Cumulative Drift:                    24.64228493361152
+            [Validation Step, performed over 20% of total records] -> No. of records: 24452
+            - Signals flagged as anomalies:             20
+            - Anomaly rate (anomalies/total frames %):  0.08179290037624734
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-4/unified.tar.gz - VARIABLE: HA_2 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 97804
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             -7.305152091026563e-25
+            - Standard Deviation of Residuals (sigma):  0.049994514329285145
+            - Anomaly threshold:                        0.19519170535562072
+            - Max. Cumulative Drift:                    21.757348270435678
+            [Validation Step, performed over 20% of total records] -> No. of records: 24452
+            - Signals flagged as anomalies:             34
+            - Anomaly rate (anomalies/total frames %):  0.13904793063962048
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-4/unified.tar.gz - VARIABLE: NI_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 49004
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             0.0
+            - Standard Deviation of Residuals (sigma):  9.540001471845076e-05
+            - Anomaly threshold:                        0.00037246669586983025
+            - Max. Cumulative Drift:                    0.10559545663429007
+            [Validation Step, performed over 20% of total records] -> No. of records: 12252
+            - Signals flagged as anomalies:             854
+            - Anomaly rate (anomalies/total frames %):  6.9702905648057465
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-4/unified.tar.gz - VARIABLE: NI_1 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 49004
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             -1.1349534284152083e-17
+            - Standard Deviation of Residuals (sigma):  0.0049553116025738515
+            - Anomaly threshold:                        0.019346837053046607
+            - Max. Cumulative Drift:                    0.8688271257497011
+            [Validation Step, performed over 20% of total records] -> No. of records: 12252
+            - Signals flagged as anomalies:             155
+            - Anomaly rate (anomalies/total frames %):  1.2650995755794971
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-5/unified.tar.gz - VARIABLE: HA_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 67018
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -0.0010064761569236168
+            - Standard Deviation of Residuals (sigma):  1.1043223008093104
+            - Anomaly threshold:                        3.0545452159185293
+            - Max. Cumulative Drift:                    76.52557672570927
+            [Validation Step, performed over 20% of total records] -> No. of records: 16755
+            - Signals flagged as anomalies:             0
+            - Anomaly rate (anomalies/total frames %):  0.0
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-5/unified.tar.gz - VARIABLE: HA_1 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 67018
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -0.004213186448231876
+            - Standard Deviation of Residuals (sigma):  4.472246126921316
+            - Anomaly threshold:                        14.51569270582261
+            - Max. Cumulative Drift:                    298.0160216166562
+            [Validation Step, performed over 20% of total records] -> No. of records: 16755
+            - Signals flagged as anomalies:             0
+            - Anomaly rate (anomalies/total frames %):  0.0
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-5/unified.tar.gz - VARIABLE: HA_2 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 44648
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             1.1415188284446785e-86
+            - Standard Deviation of Residuals (sigma):  0.039074495978908746
+            - Anomaly threshold:                        0.15255708767965542
+            - Max. Cumulative Drift:                    22.302744804749487
+            [Validation Step, performed over 20% of total records] -> No. of records: 11162
+            - Signals flagged as anomalies:             129
+            - Anomaly rate (anomalies/total frames %):  1.155706862569432
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-6/unified.tar.gz - VARIABLE: HA_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 76595
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -0.002266057660574042
+            - Standard Deviation of Residuals (sigma):  2.0807834096397846
+            - Anomaly threshold:                        4.724825961050357
+            - Max. Cumulative Drift:                    193.89727296961
+            [Validation Step, performed over 20% of total records] -> No. of records: 19149
+            - Signals flagged as anomalies:             0
+            - Anomaly rate (anomalies/total frames %):  0.0
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-6/unified.tar.gz - VARIABLE: HA_1 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 76595
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -0.0042315529179491745
+            - Standard Deviation of Residuals (sigma):  3.8791564690520675
+            - Anomaly threshold:                        12.911122081702516
+            - Max. Cumulative Drift:                    363.510705639031
+            [Validation Step, performed over 20% of total records] -> No. of records: 19149
+            - Signals flagged as anomalies:             53
+            - Anomaly rate (anomalies/total frames %):  0.2767768551882605
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-6/unified.tar.gz - VARIABLE: HA_2 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 51028
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             0.0
+            - Standard Deviation of Residuals (sigma):  0.037336880287491145
+            - Anomaly threshold:                        0.14577297997082597
+            - Max. Cumulative Drift:                    16.598602536405394
+            [Validation Step, performed over 20% of total records] -> No. of records: 12757
+            - Signals flagged as anomalies:             115
+            - Anomaly rate (anomalies/total frames %):  0.9014658618797524
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-7/unified.tar.gz - VARIABLE: HA_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 123913
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -0.0016446734323097925
+            - Standard Deviation of Residuals (sigma):  2.0644161131092416
+            - Anomaly threshold:                        7.443937895516076
+            - Max. Cumulative Drift:                    230.27413549772413
+            [Validation Step, performed over 20% of total records] -> No. of records: 30979
+            - Signals flagged as anomalies:             0
+            - Anomaly rate (anomalies/total frames %):  0.0
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-7/unified.tar.gz - VARIABLE: HA_1 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 82552
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             -1.858862057086583e-41
+            - Standard Deviation of Residuals (sigma):  0.06750978873472346
+            - Anomaly threshold:                        0.26357593364217335
+            - Max. Cumulative Drift:                    28.21717653241
+            [Validation Step, performed over 20% of total records] -> No. of records: 20638
+            - Signals flagged as anomalies:             9
+            - Anomaly rate (anomalies/total frames %):  0.043608876829150114
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-7/unified.tar.gz - VARIABLE: HA_2 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 82552
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             -5.2904365444524274e-36
+            - Standard Deviation of Residuals (sigma):  0.06787858249955642
+            - Anomaly threshold:                        0.2650158012926147
+            - Max. Cumulative Drift:                    25.9044564250263
+            [Validation Step, performed over 20% of total records] -> No. of records: 20638
+            - Signals flagged as anomalies:             3
+            - Anomaly rate (anomalies/total frames %):  0.01453629227638337
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-7/unified.tar.gz - VARIABLE: BY_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 41361
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             3.539991330721593e-14
+            - Standard Deviation of Residuals (sigma):  0.006101151418099868
+            - Anomaly threshold:                        0.023820496426664155
+            - Max. Cumulative Drift:                    1.187902050481534
+            [Validation Step, performed over 20% of total records] -> No. of records: 10341
+            - Signals flagged as anomalies:             49
+            - Anomaly rate (anomalies/total frames %):  0.4738419882023015
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-8/unified.tar.gz - VARIABLE: HA_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 71464
+            - Statistical Distribution of Residuals:    Kde
+            - Mean value of Residuals (mu):             -0.0012787789028899817
+            - Standard Deviation of Residuals (sigma):  1.2096846248276671
+            - Anomaly threshold:                        3.7389996081322145
+            - Max. Cumulative Drift:                    112.30180071774353
+            [Validation Step, performed over 20% of total records] -> No. of records: 17867
+            - Signals flagged as anomalies:             0
+            - Anomaly rate (anomalies/total frames %):  0.0
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-8/unified.tar.gz - VARIABLE: HA_1 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 47611
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             6.471645923122563e-58
+            - Standard Deviation of Residuals (sigma):  0.062256746872493135
+            - Anomaly threshold:                        0.24306667951401417
+            - Max. Cumulative Drift:                    24.96276721402861
+            [Validation Step, performed over 20% of total records] -> No. of records: 11903
+            - Signals flagged as anomalies:             100
+            - Anomaly rate (anomalies/total frames %):  0.8401243384020836
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-8/unified.tar.gz - VARIABLE: HA_2 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 47611
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             1.5991137670507155e-59
+            - Standard Deviation of Residuals (sigma):  0.06197870976981211
+            - Anomaly threshold:                        0.24198114969234222
+            - Max. Cumulative Drift:                    24.199343413473795
+            [Validation Step, performed over 20% of total records] -> No. of records: 11903
+            - Signals flagged as anomalies:             82
+            - Anomaly rate (anomalies/total frames %):  0.6889019574897084
+            
+            --- EXPERIMENT FILE: data/recan-C-1-AlfaRomeo-Giulia/Exp-8/unified.tar.gz - VARIABLE: NI_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 23853
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             1.3604096044909382e-08
+            - Standard Deviation of Residuals (sigma):  0.006268515244502669
+            - Anomaly threshold:                        0.02447394233482199
+            - Max. Cumulative Drift:                    1.0980178537994747
+            [Validation Step, performed over 20% of total records] -> No. of records: 5964
+            - Signals flagged as anomalies:             123
+            - Anomaly rate (anomalies/total frames %):  2.062374245472837
+            
+            --- EXPERIMENT FILE: data/recan-C-2-Opel-Corsa/Exp-1/unified.tar.gz - VARIABLE: HA_0 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 27264
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             4.1140277636066634e-75
+            - Standard Deviation of Residuals (sigma):  0.15362215782052227
+            - Anomaly threshold:                        0.5997812233538065
+            - Max. Cumulative Drift:                    26.538275737069746
+            [Validation Step, performed over 20% of total records] -> No. of records: 6817
+            - Signals flagged as anomalies:             171
+            - Anomaly rate (anomalies/total frames %):  2.5084347953645296
+            
+            --- EXPERIMENT FILE: data/recan-C-2-Opel-Corsa/Exp-1/unified.tar.gz - VARIABLE: HA_1 ---
+            [Calibration Step, performed over 80% of total records] -> No. of records: 27264
+            - Statistical Distribution of Residuals:    Laplace
+            - Mean value of Residuals (mu):             1.4277637124748467e-88
+            - Standard Deviation of Residuals (sigma):  0.15294679796908578
+            - Anomaly threshold:                        0.5971444412408259
+            - Max. Cumulative Drift:                    26.745216267722554
+            [Validation Step, performed over 20% of total records] -> No. of records: 6817
+            - Signals flagged as anomalies:             163
+            - Anomaly rate (anomalies/total frames %):  2.3910811207275926
+            
