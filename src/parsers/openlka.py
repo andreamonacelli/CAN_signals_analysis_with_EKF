@@ -26,11 +26,11 @@ class OpenLKAParser(BaseCANParser):
         df = pd.DataFrame()
         try:
             # The file passed should be a "ready-to-read" CSV file
-            input_df = pd.read_csv(filepath, sep=';', decimal=',', low_memory=False)
+            input_df = pd.read_csv(filepath, sep=',', decimal='.', low_memory=False)
             # It's been registered that in the dataset some values are negative (due to sensors noise), since this is
             # physically impossible, we can safely "clean" those values and turn them to 0.0
             clean_velocity_column = input_df['vEgo'].astype('float64').clip(lower=0.0)
-            converted_time = pd.to_datetime(input_df['unix_time'], errors='coerce')
+            converted_time = pd.to_datetime(input_df['wallTimeCentiseconds'] / 100.0, unit='s', errors='coerce')
             df = pd.DataFrame({
                 'id': DEFAULT_CAN_ID,
                 'time': converted_time,
@@ -43,7 +43,12 @@ class OpenLKAParser(BaseCANParser):
 
     def set_experiment_params(self, filename):
         speed_ids = [DEFAULT_CAN_ID]
-        motion_model = SpeedMotionModel(speed_ids)
+        motion_model = SpeedMotionModel(
+            CAN_ids=speed_ids,
+            drag_coefficient=0.003,
+            phi=5.0,
+            measurement_noise=0.5
+        )
         HJacobian = h_jacobian_speed
         Hx = observation_model_h
         return speed_ids, motion_model, HJacobian, Hx

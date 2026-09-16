@@ -62,7 +62,12 @@ class ReCANParser(BaseCANParser):
             speed_ids = ALFA_ROMEO_SPEED_IDs
         else:
             speed_ids = OPEL_CORSA_SPEED_IDs
-        motion_model = SpeedMotionModel(speed_ids)
+        motion_model = SpeedMotionModel(
+            CAN_ids=speed_ids,
+            drag_coefficient=0.0001,
+            phi=5.0,
+            measurement_noise=0.5
+        )
         HJacobian = h_jacobian_speed
         Hx = observation_model_h
         return speed_ids, motion_model, HJacobian, Hx

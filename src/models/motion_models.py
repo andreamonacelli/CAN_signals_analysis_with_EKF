@@ -15,9 +15,10 @@ class VehicleMotionModel(ABC):
     The base class that represents the motion model that will be used to define an adequate motion model
     to be fed to the EKF implementation
     """
-    def __init__(self, drag_coefficient=0.001, phi=1.0):
+    def __init__(self, drag_coefficient=0.001, phi=1.0, measurement_noise=0.5):
         self.drag_coefficient = drag_coefficient
         self.phi = phi
+        self.measurement_noise = measurement_noise
 
     @property
     @abstractmethod
@@ -48,9 +49,12 @@ class SpeedMotionModel(VehicleMotionModel):
     dim_x = 2
     dim_z = 1
 
-    def __init__(self, CAN_ids):
+    def __init__(self, CAN_ids, drag_coefficient=0.001, phi=1.0, measurement_noise=0.5):
         super().__init__()
         self.CAN_ids = CAN_ids
+        self.drag_coefficient = drag_coefficient
+        self.phi = phi
+        self.measurement_noise = measurement_noise
 
     def get_initial_state(self, initial_velocity=0.0):
         # The initial velocity is given, if not we will assume the initial state to be stationary
@@ -78,7 +82,7 @@ class SpeedMotionModel(VehicleMotionModel):
         ])
         # Defining the noise matrices (respectively Q=process noise and R=measurement noise)
         Q = Q_continuous_white_noise(dim=2, dt=delta_time, spectral_density=self.phi)
-        R = np.array([[0.5]])
+        R = np.array([[self.measurement_noise]])
         return x_new, F, Q, R
 
 
