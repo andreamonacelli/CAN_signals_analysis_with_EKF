@@ -45,7 +45,6 @@ def check_statistical_distribution(tracing_dataframe):
         return None
     # Extract the steady-state residual errors
     residuals = tracing_dataframe['residual_error'].dropna().values
-    # print(f"[DEBUG] Sample Size (N): {len(residuals):,}")
 
     # First of all, we are going to check if the current distribution is Bimodal/Multimodal
     # To do so, we are going to use the Gaussian KDE of Scipy
@@ -54,8 +53,9 @@ def check_statistical_distribution(tracing_dataframe):
     # The goal of this is to compare the Y-values in order to find the peaks
     x_grid = np.linspace(residuals.min(), residuals.max(), 200)
     kde_values = kde(x_grid)
-    # Find peaks. 'prominence' ensures we only catch real peaks, not tiny noise bumps
-    # We set prominence to 10% of the maximum peak height
+    # Now we need to look for peaks in the curve. The argument 'prominence' ensures we only catch real peaks, ignoring
+    # potential micro-spikes that will flaw our evaluation
+    # We set prominence_value to 10% of the maximum peak height
     prominence_value = float(np.max(kde_values) * 0.1)
     peaks, _ = find_peaks(kde_values, prominence=prominence_value)
     # Finally, we check if the distribution is Bimodal/Multimodal
@@ -69,7 +69,6 @@ def check_statistical_distribution(tracing_dataframe):
     # We sample 5000 random points within our data-points to get a mathematically fair p-value.
     shapiro_sample_size = min(len(residuals), 5000)
     shapiro_sample = np.random.choice(residuals, shapiro_sample_size, replace=False)
-    # shapiro_sample = residuals[:shapiro_sample_size]
     stat_sw, p_value_sw = stats.shapiro(shapiro_sample)
     logger.debug(f'Shapiro-Wilk Test -> Statistic: {stat_sw:.4f}, p-value: {p_value_sw:.4e}')
 
@@ -87,7 +86,8 @@ def check_statistical_distribution(tracing_dataframe):
         best_ks_stat = float('inf')
         for dist_name in STATS_DISTRIBUTIONS:
             dist_obj = getattr(stats, dist_name)
-            # Scipy automatically calculates the ideal Mean, StdDev and other statistical parameters for our specific data
+            # Scipy automatically calculates the ideal Mean, StdDev and other statistical parameters for our specific
+            # data so we just need to fetch it later
             params = dist_obj.fit(residuals)
             # KS Test compares the raw data to the theoretical fitted distribution
             stat_ks, p_value_ks = stats.kstest(residuals, dist_obj.cdf, args=params)

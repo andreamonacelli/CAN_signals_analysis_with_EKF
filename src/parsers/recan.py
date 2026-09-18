@@ -43,10 +43,11 @@ class ReCANParser(BaseCANParser):
     """
     speed_measure_unit = 'kph'
 
-    def parse(self, tar_file_path):
+    def parse(self, filepath):
+        # In this specific scenario, the filepath points to a .tar.gz archive containing the CSV file to be analyzed
         df = pd.DataFrame()
         try:
-            with tarfile.open(tar_file_path, "r:gz") as tar:
+            with tarfile.open(filepath, "r:gz") as tar:
                 members = tar.getmembers()
                 f = tar.extractfile(members[0])
                 if f is not None:
@@ -54,7 +55,7 @@ class ReCANParser(BaseCANParser):
                     # Based on the description of the binary data type given in the paper we can keep them out of the dataframe
                     df = df[df['datatype'] != 'binary']
         except FileNotFoundError:
-            print(f'ERROR: File {tar_file_path} not found. Please check your source directory!')
+            print(f'ERROR: File {filepath} not found. Please check your source directory!')
         return df
 
     def set_experiment_params(self, filename):

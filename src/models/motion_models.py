@@ -60,7 +60,7 @@ class SpeedMotionModel(VehicleMotionModel):
         # The initial velocity is given, if not we will assume the initial state to be stationary
         x_0 = np.array([[initial_velocity],
                         [0.0]])
-        # Assuming high uncertainty over the values (populating the Covariance Matrix accordingly)
+        # Assuming high initial uncertainty over the values (populating the Covariance Matrix accordingly)
         P_0 = np.array([[10.0, 0.0],
                         [0.0, 10.0]])
         return x_0, P_0
@@ -86,8 +86,9 @@ class SpeedMotionModel(VehicleMotionModel):
         return x_new, F, Q, R
 
 
+# --- CHECK IF CLASS BELOW IS NEEDED, IN CASE IT'S NOT REMOVE IT ---
 # In case the SpeedMotionModel works, it might be worth giving it a shot to try and define a physical model to
-# include predictions over RPM values in the picture as well (to be agreed)
+# include predictions over RPM values in the picture as well
 class SpeedRPMMotionModel(VehicleMotionModel):
     """
     [Work-In-Progress] The class that represents the motion model corresponding to the case where we have both the

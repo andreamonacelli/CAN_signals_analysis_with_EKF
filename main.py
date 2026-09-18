@@ -26,7 +26,7 @@ exp_folders = [f'Exp-{i}' for i in range(1, MAX_EXPERIMENT_COUNT)]
 
 def run_ekf_loop(records, motion_model, HJacobian, Hx, current_speed_um):
     """
-    Functions that handles the actual EKF loop for a given set of parameters that are needed to adequately perform the
+    Function that handles the actual EKF loop for a given set of parameters that are needed to adequately perform the
     needed prediction and update steps.
     :param records: a list holding the records over which the loop is supposed to iterate over.
     :param motion_model: the model that hold Transition functions and Noise matrices to be fed to the EKF.
@@ -91,8 +91,6 @@ def run_ekf_loop(records, motion_model, HJacobian, Hx, current_speed_um):
         session_trace['predicted_next_value'] = ekf.x[0, 0]
 
         # --- PREDICTION EVALUATION AND ITERATION LOGGING ---
-        # Note: we can use the residual, however we should refine our approach for a bit because we would need to consider
-        # the EKF prediction as the Ground Truth, and we should then compare the received data to see whether it falls within the right distribution
         y_k = float(ekf.y[0, 0])  # Innovation Residual - Represents the prediction error
         cumulative_error += y_k  # Updating the cumulative error with the residual for the current signal
         variance_s = float(ekf.S[0, 0])  # Innovation Covariance Matrix S, which we will use to define a threshold
@@ -122,8 +120,8 @@ if __name__ == '__main__':
     for exp_file in input_files_paths:
         stats_dict = {'file': exp_file}
         print(f'!!!---- NOW PROCESSING {exp_file} ----!!!')
-        # The first thing to do is converting the parsed file into a pandas dataframe leveraging the method in utilities
-        # We will get the dataframe without binary readings since they are not very interesting in our context
+        # The first thing to do is converting the parsed file into a pandas dataframe using the parsers that have been
+        # properly defined in the respective files
 
         # Based on the experiment file currently under examination, fetch the data into a Pandas DataFrame
         source_dataset = exp_file.split('/')[1].split('-')[0]
@@ -136,15 +134,13 @@ if __name__ == '__main__':
         stats_dict['total_file_records'] = len(df)
         logger.debug(f'The file {exp_file} has been converted to dataframe and has {len(df)} rows (non-binary records)')
 
-        # Defining the output directory path (and creating it in case it doesn't exist)
+        # Defining the output directory path (or creating it in case it doesn't exist)
         outfile_dir_path = os.path.split(exp_file)[0].replace('data', 'outputs')
         if not os.path.exists(outfile_dir_path):
             os.makedirs(outfile_dir_path)
 
-        # Setting the correct lists to be used while filtering the dataframe and defining the motion models.
-        # Right now it is implemented for ReCAN only, this will be refactored accordingly when OpenDBC and other sources
-        # will be integrated in the project.
-        # speed_ids, motion_model, HJacobian, Hx = set_experiment_params(exp_file)
+        # Setting the correct parameters to be used while filtering the dataframe and defining the motion models.
+        # These settings are defined in the parser to ensure maximum flexibility
         speed_ids, motion_model, HJacobian, Hx = parser.set_experiment_params(exp_file)
         current_speed_um = parser.speed_measure_unit
 
@@ -155,16 +151,15 @@ if __name__ == '__main__':
             can_variables.append('VAR')
         logger.debug(f'-> CAN variables in current file: {can_variables}')
 
-        # We must perform the prediction separately for every single variable
+        # We must perform the prediction separately for every single variable since the data is grouped accordingly
         for can_var_name in can_variables:
             print(f'======= CURRENTLY ANALYZING VARIABLE {can_var_name} for file {exp_file} =======')
 
             # --- DATAFRAME PREPARATION ---
 
             # We are going to use the 80/20 method (80% of data used for Calibration of the filter, 20% of the data used for later testing)
-            # As of now we are just keeping the first 80% of the values to enhance Calibration even more we may have to take the median 80% values
-            # In case we're working with a ReCAN source we must deal with the variables, otherwise we should just deal
-            # with the correct IDs
+            # Due to the nature of the data, we should use consecutive intervals, otherwise the predictions will
+            # inevitably be faulty due to invalid physical context
             if can_var_name == 'VAR':
                 if len(speed_ids) == 0:
                     filtered_df = df  # in case the IDs are not specified we can assume that the whole dataset is filled with speed-related messages
@@ -181,7 +176,7 @@ if __name__ == '__main__':
             logger.debug(f'Variable {can_var_name} -> Calibration frames (80%): {len(calibration_records)}')
             logger.debug(f'Variable {can_var_name} -> Validation frames (20%): {len(validation_records)}')
 
-            # --- INITIAL SETUP (ONCE PER EACH FILE/EXPERIMENT) ---
+            # --- INITIAL SETUP (ONCE PER EACH INPUT FILE) ---
 
             # In order to be more accurate we need to read the first value of the filtered dataframe to set the initial
             # velocity value, otherwise the residual error would spike erroneously

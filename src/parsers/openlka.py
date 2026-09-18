@@ -27,7 +27,7 @@ class OpenLKAParser(BaseCANParser):
         try:
             # The file passed should be a "ready-to-read" CSV file
             input_df = pd.read_csv(filepath, sep=',', decimal='.', low_memory=False)
-            # It's been registered that in the dataset some values are negative (due to sensors noise), since this is
+            # It's been noticed that in the dataset some values are negative (due to sensors noise), since this is
             # physically impossible, we can safely "clean" those values and turn them to 0.0
             clean_velocity_column = input_df['vEgo'].astype('float64').clip(lower=0.0)
             converted_time = pd.to_datetime(input_df['wallTimeCentiseconds'] / 100.0, unit='s', errors='coerce')
